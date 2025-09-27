@@ -4,6 +4,8 @@ import java.util.Random;
 
 import ucb.util.CommandArgs;
 
+import java.util.Locale;
+
 /** The main class for the 2048 game.
  *  @author P. N. Hilfinger
  */
@@ -18,6 +20,7 @@ public class Main {
      *  (random seed); --log (record moves and random tiles
      *  selected.). */
     public static void main(String... args) {
+        Locale.setDefault(Locale.US);
         CommandArgs options =
             new CommandArgs("--seed=(\\d+) --log=(.+)",
                             args);
@@ -38,7 +41,6 @@ public class Main {
 
         gui = new GUI("2048 61B", model);
         gui.display(true);
-
         InputSource inp;
 
         inp = new GUISource(gui, gen, TILE2_PROBABILITY,
