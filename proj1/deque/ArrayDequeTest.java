@@ -2,6 +2,8 @@ package deque;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -40,9 +42,46 @@ public class ArrayDequeTest {
         // should not be empty
         assertFalse("lld1 should contain 1 item", lld1.isEmpty());
 
-        lld1.removeFirst();
+        lld1.removeLast();
         // should be empty
         assertTrue("lld1 should be empty after removal", lld1.isEmpty());
 
     }
+    @Test
+    public void equalsTest() {
+
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        ArrayDeque<Integer> lld2 = new ArrayDeque<Integer>();
+        lld1.addFirst(10);
+        lld1.addFirst(20);
+        lld1.addFirst(30);
+        lld1.addFirst(40);
+
+        lld2.addLast(40);
+        lld2.addLast(30);
+        lld2.addLast(20);
+        lld2.addLast(10);
+        if(lld1.equals(lld2)){
+            System.out.print("yes");
+        }else {
+            System.out.print("no");
+        }
+    }
+
+    @Test
+    public void iteratorTest() {
+
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        lld1.addFirst(10);
+        lld1.addFirst(20);
+        lld1.addFirst(30);
+        lld1.addFirst(40);
+
+        for (int i:lld1) {
+            System.out.print(i);
+        }
+        MaxArrayDeque<Integer> MAD = new MaxArrayDeque<Integer>(null);
+        MAD.addFirst(1);
+    }
+
 }

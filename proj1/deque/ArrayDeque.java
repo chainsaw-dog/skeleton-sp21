@@ -1,6 +1,8 @@
 package deque;
 
-public class ArrayDeque<T> implements deque<T>{
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     private T[] content;
     private int size;
 
@@ -31,12 +33,13 @@ public class ArrayDeque<T> implements deque<T>{
         content[size] = item;
         size = size + 1;
     }
-    public boolean isEmpty() {
-        return size == 0;
-    }
+
+
     public int size() {
         return size;
     }
+
+
     public void printDeque() {
         for (int i=0;i<size;i++){
             if(i!=0) {
@@ -46,10 +49,14 @@ public class ArrayDeque<T> implements deque<T>{
         }
         System.out.println();
     }
+
+
     public T get(int index) {
         if(isEmpty()) { return null;}
         return content[index];
     }
+
+
     public T removeFirst() {
         if(isEmpty()) { return null;}
         T removed = content[0];
@@ -59,9 +66,11 @@ public class ArrayDeque<T> implements deque<T>{
         size = size - 1;
         return removed;
     }
+
+
     public T removeLast() {
         if(isEmpty()) { return null;}
-        T removed = content[size];
+        T removed = content[size-1];
         T[] temp = (T[]) new Object[size];
         System.arraycopy(content,0,temp,0,size-1);
         content = temp;
@@ -69,4 +78,44 @@ public class ArrayDeque<T> implements deque<T>{
         return removed;
     }
 
+
+    public boolean equals(Object o){
+        if(!(o instanceof ArrayDeque)){
+            return false;
+        }else {
+            if(((ArrayDeque<?>) o).size!=this.size){
+                return false;
+            }
+            for(int i = 0;i < size;i++){
+                if (((ArrayDeque<?>) o).content[i]!=this.content[i]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    private class ADIterator<T> implements Iterator<T> {
+        private  int wizpos;
+
+        public  ADIterator() {
+            wizpos = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return wizpos < size;
+        }
+
+        @Override
+        public T next() {
+            T out = (T) content[wizpos];
+            wizpos = wizpos + 1;
+            return out;
+        }
+    }
+    public Iterator<T> iterator(){
+        return new ADIterator<>();
+    }
 }

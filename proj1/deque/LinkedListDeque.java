@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> implements deque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
     private class TNode {
         public T content;
         public TNode prev;
@@ -42,10 +44,6 @@ public class LinkedListDeque<T> implements deque<T> {
         sentinel.next = temp;
     }
 
-    /**check empty*/
-    public boolean isEmpty() {
-        return sentinel.next.content == null;
-    }
 
     /**return size*/
     public int size() {
@@ -108,5 +106,49 @@ public class LinkedListDeque<T> implements deque<T> {
         TNode target = getR(sentinel,index);
         return target.content;
     }
-    //iterator and equals will be added later
+
+
+    public boolean equals(Object o){
+        if(!(o instanceof LinkedListDeque)){
+            return false;
+        }else {
+            if(((LinkedListDeque<?>) o).size!=this.size){
+                return false;
+            }
+            TNode temp1 = this.sentinel.next;
+            TNode temp2 = ((LinkedListDeque<T>) o).sentinel.next;
+            while(temp1!=sentinel){
+                if (temp1.content!=temp2.content){
+                    return false;
+                }
+                temp1 = temp1.next;
+                temp2 = temp2.next;
+            }
+        }
+        return true;
+    }
+
+    private class LLDIterator<T> implements Iterator<T> {
+        private  int wizpos;
+
+        public  LLDIterator() {
+            wizpos = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return wizpos < size;
+        }
+
+        @Override
+        public T next() {
+            T out = (T) get(wizpos);
+            wizpos = wizpos + 1;
+            return out;
+        }
+    }
+    public Iterator<T> iterator(){
+        return new LLDIterator<>();
+    }
 }
+
