@@ -2,141 +2,104 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
+public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     private T[] content;
     private int size;
-    private int front;
-    private int rear;
+
 
     public ArrayDeque() {
         content = (T[]) new Object[8];
         size = 0;
-        front = 0;
-        rear = 0;
     }
-
-    private void resize(int capacity) {
+    private void  resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        int oldCapacity = content.length;
-        int index = 0;
-        for (int i = front; i < oldCapacity; i++) {
-            a[index++] = content[i];
-        }
-        if (front > rear) {
-            for (int i = 0; i < rear; i++) {
-                a[index++] = content[i];
-            }
-        }
+        System.arraycopy(content,0,a,0,size);
         content = a;
-        front = 0;
-        rear = size;
     }
-
     public void addFirst(T item) {
         if (size == content.length) {
-            resize(size * 2);
+            resize(size*2);
         }
-        front = (front - 1 + content.length) % content.length;
-        content[front] = item;
-        size++;
+        T[] temp = (T[]) new Object[content.length];
+        temp[0] = item;
+        System.arraycopy(content,0,temp,1,size);
+        content = temp;
+        size = size + 1;
     }
-
     public void addLast(T item) {
         if (size == content.length) {
-            resize(size * 2);
+            resize(size*2);
         }
-        content[rear] = item;
-        rear = (rear + 1) % content.length;
-        size++;
+        content[size] = item;
+        size = size + 1;
     }
+
 
     public int size() {
         return size;
     }
 
+
     public void printDeque() {
-        for (int i = 0; i < size; i++) {
-            int pos = (front + i) % content.length;
-            if (i != 0) {
+        for (int i=0;i<size;i++){
+            if(i!=0) {
                 System.out.print(" ");
             }
-            System.out.print(content[pos]);
+            System.out.print(content[i]);
         }
         System.out.println();
     }
 
+
     public T get(int index) {
-        if (index < 0 || index >= size) {
-            return null;
-        }
-        int pos = (front + index) % content.length;
-        return content[pos];
+        if(isEmpty()) { return null;}
+        return content[index];
     }
+
 
     public T removeFirst() {
-        if (isEmpty()) {
-            return null;
-        }
-        T removed = content[front];
-        front = (front + 1) % content.length;
-        size--;
-        if (size > 0 && size == content.length / 4) {
-            resize(content.length / 2);
-        }
+        if(isEmpty()) { return null;}
+        T removed = content[0];
+        T[] temp = (T[]) new Object[size];
+        System.arraycopy(content,1,temp,0,size-1);
+        content = temp;
+        size = size - 1;
         return removed;
     }
+
 
     public T removeLast() {
-        if (isEmpty()) {
-            return null;
-        }
-        rear = (rear - 1 + content.length) % content.length;
-        T removed = content[rear];
-        size--;
-        if (size > 0 && size == content.length / 4) {
-            resize(content.length / 2);
-        }
+        if(isEmpty()) { return null;}
+        T removed = content[size-1];
+        T[] temp = (T[]) new Object[size];
+        System.arraycopy(content,0,temp,0,size-1);
+        content = temp;
+        size =size - 1;
         return removed;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof Deque)) {
+    public boolean equals(Object o){
+        if(!(o instanceof ArrayDeque)){
             return false;
-        }
-        ArrayDeque<?> other = (ArrayDeque<?>) o;
-        if (other.size() != this.size) {
-            return false;
-        }
-        Iterator<T> thisIter = this.iterator();
-        Iterator<?> otherIter = other.iterator();
-        while (thisIter.hasNext()) {
-            T thisElem = thisIter.next();
-            Object otherElem = otherIter.next();
-            if (!elementsEqual(thisElem, otherElem)) {
+        }else {
+            if(((ArrayDeque<?>) o).size!=this.size){
                 return false;
+            }
+            for(int i = 0;i < size;i++){
+                if (((ArrayDeque<?>) o).content[i]!=this.content[i]){
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    private boolean elementsEqual(Object a, Object b) {
-        if (a == b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        return a.equals(b);
-    }
 
-    private class ADIterator implements Iterator<T> {
-        private int wizpos;
+    private class ADIterator<T> implements Iterator<T> {
+        private  int wizpos;
 
-        public ADIterator() {
+        public  ADIterator() {
             wizpos = 0;
         }
 
@@ -147,13 +110,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         @Override
         public T next() {
-            T out = get(wizpos);
-            wizpos++;
+            T out = (T) content[wizpos];
+            wizpos = wizpos + 1;
             return out;
         }
     }
-
-    public Iterator<T> iterator() {
-        return new ADIterator();
+    public Iterator<T> iterator(){
+        return new ADIterator<>();
     }
 }
