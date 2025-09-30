@@ -108,26 +108,44 @@ public class LinkedListDeque<T> implements Deque<T> ,Iterable<T>{
     }
 
 
-    public boolean equals(Object o){
-        if(!(o instanceof LinkedListDeque)){
+    public boolean equals(Object o) {
+
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || !(o instanceof Deque)) {
             return false;
-        }else {
-            if(((LinkedListDeque<?>) o).size!=this.size){
+        }
+        Deque<?> other = (Deque<?>) o;
+
+        if (this.size != other.size()) {
+            return false;
+        }
+
+        Iterator<T> thisIter = this.iterator();
+        Iterator<?> otherIter = other.iterator();
+        while (thisIter.hasNext()) {
+            T thisElem = thisIter.next();
+            Object otherElem = otherIter.next();
+
+            if (!elementsEqual(thisElem, otherElem)) {
                 return false;
-            }
-            TNode temp1 = this.sentinel.next;
-            TNode temp2 = ((LinkedListDeque<T>) o).sentinel.next;
-            while(temp1!=sentinel){
-                if (temp1.content!=temp2.content){
-                    return false;
-                }
-                temp1 = temp1.next;
-                temp2 = temp2.next;
             }
         }
         return true;
     }
 
+
+    private boolean elementsEqual(Object a, Object b) {
+        if (a == b) {
+            return true;
+        }
+        if (a == null || b == null) {
+            return false;
+        }
+        return a.equals(b);
+    }
     private class LLDIterator<T> implements Iterator<T> {
         private  int wizpos;
 
