@@ -1,7 +1,5 @@
 package deque;
 
-import net.sf.saxon.expr.Component;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Iterator;
 
