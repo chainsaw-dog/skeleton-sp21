@@ -51,6 +51,7 @@ public class ArrayDequeTest {
     public void equalsTest() {
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        lld1.removeLast();
         ArrayDeque<Integer> lld2 = new ArrayDeque<Integer>();
         lld1.addFirst(10);
         lld1.addFirst(20);
@@ -72,13 +73,14 @@ public class ArrayDequeTest {
     public void iteratorTest() {
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-        for(int i = 0;i < 9;i++) {
+        for(int i = 0;i < 50;i++) {
             lld1.addLast(i);
         }
         System.out.print(lld1.removeFirst());
-        System.out.print(lld1.removeLast());
-        System.out.print(lld1.removeLast());
-        System.out.print(lld1.removeLast());
+        for (int i = 0;i < 45;i++) {
+            System.out.print(lld1.removeLast());
+        }
+
         MaxArrayDeque<Integer> MAD = new MaxArrayDeque<Integer>(null);
         MAD.addFirst(1);
     }

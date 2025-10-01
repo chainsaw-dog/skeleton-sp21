@@ -80,7 +80,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         }
         double factor = (double) content.length / 4;
         if (size - 1 < factor) {
-            resize(size - 1);
+            resize(size);
         }
         T removed = content[front];
         front = (front + 1 + content.length) % content.length;
@@ -95,7 +95,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         }
         double factor = (double) content.length / 4;
         if (size - 1 < factor) {
-            resize(size - 1);
+            resize(size);
         }
         rear = (rear - 1 + content.length) % content.length;
         T removed = content[rear];
