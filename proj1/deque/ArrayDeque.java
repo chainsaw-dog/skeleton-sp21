@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>{
+public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     private T[] content;
     private int size;
     private int front;
@@ -106,12 +106,8 @@ public class ArrayDeque<T> implements Deque<T>{
         if(size != other.size()){
             return false;
         }
-        Iterator<T> thisIter = iterator();
-        Iterator<?> otherIter = other.iterator();
-        while (thisIter.hasNext()) {
-            T thisElem = thisIter.next();
-            Object otherElem = otherIter.next();
-            if (!elementsEqual(thisElem, otherElem)) {
+        for (int i = 0;i < size;i++) {
+            if (!elementsEqual(this.get(i),other.get(i))) {
                 return false;
             }
         }
