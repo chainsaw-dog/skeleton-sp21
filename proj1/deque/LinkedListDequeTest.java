@@ -133,13 +133,13 @@ public class LinkedListDequeTest {
     public void equalsTest() {
 
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<Integer>();
+        ArrayDeque<Integer> lld2 = new ArrayDeque<Integer>();
         lld1.addFirst(10);
         lld1.addFirst(20);
         lld1.addFirst(30);
         lld1.addFirst(40);
 
-        lld2.addLast(50);
+        lld2.addLast(40);
         lld2.addLast(30);
         lld2.addLast(20);
         lld2.addLast(10);

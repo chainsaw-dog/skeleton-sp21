@@ -72,11 +72,9 @@ public class ArrayDequeTest {
     public void iteratorTest() {
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-        lld1.addFirst(10);
-        lld1.addFirst(20);
-        lld1.addFirst(30);
-        lld1.addFirst(40);
-
+        for(int i = 0;i < 100;i++) {
+            lld1.addLast(i);
+        }
         for (int i:lld1) {
             System.out.print(i);
         }
