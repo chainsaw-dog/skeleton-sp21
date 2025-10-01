@@ -6,10 +6,14 @@ public class MaxArrayDeque<T> extends ArrayDeque<T>{
     private T[] content;
     private int size;
     private Comparator<T> inner_c;
+    private int front;
+    private int rear;
     public MaxArrayDeque (Comparator<T> c) {
         content = (T[]) new Object[8];
         size = 0;
         inner_c = c;
+        front = 0;
+        rear = 0;
     }
 
     public  T max(){
@@ -24,7 +28,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T>{
         if(isEmpty()){
             return null;
         }
-        T max = this.get(0);
+        T max = this.get(front);
         for (T temp : this){
             if (c.compare(temp,max) > 0) {
                 max = temp;

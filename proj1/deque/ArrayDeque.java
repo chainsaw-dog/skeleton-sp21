@@ -1,10 +1,11 @@
 package deque;
 
+import net.sf.saxon.expr.Component;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
+public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
     private T[] content;
     private int size;
     private int front;
@@ -16,27 +17,33 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         front = 0;
         rear = 0;
     }
+
     private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(content,front,a,0,size - front);
-        if (front > rear) {
-            System.arraycopy(content,0,a,size - front,rear);
+        if (front <= rear) {
+            System.arraycopy(content, front, a, 0, size);
+        } else {
+            int firstPartLength = content.length - front;
+            System.arraycopy(content, front, a, 0, firstPartLength);
+            System.arraycopy(content, 0, a, firstPartLength, rear);
         }
         content = a;
         front = 0;
         rear = size;
     }
+
     public void addFirst(T item) {
         if (size == content.length) {
-            resize(size*2);
+            resize(size * 2);
         }
         front = (front - 1 + content.length) % content.length;
         content[front] = item;
         size = size + 1;
     }
+
     public void addLast(T item) {
         if (size == content.length) {
-            resize(size*2);
+            resize(size * 2);
         }
         content[rear] = item;
         rear = (rear + 1) % content.length;
@@ -50,8 +57,8 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
 
     public void printDeque() {
-        for (int i=0;i<size;i++){
-            if(i!=0) {
+        for (int i = 0; i < size; i++) {
+            if (i != 0) {
                 System.out.print(" ");
             }
             int pos = (front + i) % content.length;
@@ -62,13 +69,21 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
 
     public T get(int index) {
-        if(isEmpty()||index > size) { return null;}
+        if (isEmpty() || index > size) {
+            return null;
+        }
         return content[(index + front) % content.length];
     }
 
 
     public T removeFirst() {
-        if(isEmpty()) { return null;}
+        if (isEmpty()) {
+            return null;
+        }
+        double factor = (double) content.length / 4;
+        if (size - 1 < factor) {
+            resize(size - 1);
+        }
         T removed = content[front];
         front = (front + 1 + content.length) % content.length;
         size = size - 1;
@@ -77,10 +92,16 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
 
     public T removeLast() {
-        if(isEmpty()) { return null;}
-        rear = (rear - 1 +content.length) % content.length;
+        if (isEmpty()) {
+            return null;
+        }
+        double factor = (double) content.length / 4;
+        if (size - 1 < factor) {
+            resize(size - 1);
+        }
+        rear = (rear - 1 + content.length) % content.length;
         T removed = content[rear];
-        size =size - 1;
+        size = size - 1;
         return removed;
     }
 
@@ -95,19 +116,19 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return a.equals(b);
     }
 
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (this == o) {
-            return  true;
+            return true;
         }
-        if(!(o instanceof Deque)){
+        if (!(o instanceof Deque)) {
             return false;
         }
         Deque<?> other = (Deque<?>) o;
-        if(size != other.size()){
+        if (size != other.size()) {
             return false;
         }
-        for (int i = 0;i < size;i++) {
-            if (!elementsEqual(this.get(i),other.get(i))) {
+        for (int i = 0; i < size; i++) {
+            if (!elementsEqual(this.get(i), other.get(i))) {
                 return false;
             }
         }
@@ -116,24 +137,28 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
 
     private class ADIterator<T> implements Iterator<T> {
-        private  int wizpos;
+        private int wizpos;
+        private int count = 0;
 
-        public  ADIterator() {
+        public ADIterator() {
             wizpos = front;
         }
 
         @Override
         public boolean hasNext() {
-            return wizpos < size;
+            return count < size;
         }
 
         @Override
         public T next() {
             T out = (T) content[wizpos];
             wizpos = (wizpos + 1) % content.length;
+            count++;
             return out;
         }
     }
+
+
     public Iterator<T> iterator(){
         return new ADIterator<T>();
     }
