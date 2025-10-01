@@ -1,5 +1,7 @@
 package deque;
 
+import org.antlr.v4.runtime.misc.NotNull;
+
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>{
@@ -136,8 +138,7 @@ public class ArrayDeque<T> implements Deque<T>{
             return out;
         }
     }
-    @Override
     public Iterator<T> iterator(){
-        return new ADIterator<>();
+        return new ADIterator<T>();
     }
 }
