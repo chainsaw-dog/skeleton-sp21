@@ -80,7 +80,12 @@ public class ArrayDequeTest {
         for (int i = 0;i < 45;i++) {
             System.out.print(lld1.removeLast());
         }
-
+        for(int i = 0;i < 50;i++) {
+            lld1.addFirst(i);
+        }
+        for (int i = 0;i < 45;i++) {
+            System.out.print(lld1.removeLast());
+        }
         MaxArrayDeque<Integer> MAD = new MaxArrayDeque<Integer>(null);
         MAD.addFirst(1);
     }

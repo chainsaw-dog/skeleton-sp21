@@ -18,7 +18,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
 
     private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        if (front <= rear) {
+        if (front < rear) {
             System.arraycopy(content, front, a, 0, size);
         } else {
             int firstPartLength = content.length - front;
