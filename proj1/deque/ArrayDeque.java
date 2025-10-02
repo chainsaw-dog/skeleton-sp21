@@ -26,7 +26,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
         content = a;
         front = 0;
-        rear = size - 1;
+        if (size == capacity) {
+            rear = 0;
+        }else {
+            rear = size;
+        }
     }
 
     public void addFirst(T item) {
