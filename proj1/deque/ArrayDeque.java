@@ -1,9 +1,8 @@
 package deque;
 
-
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] content;
     private int size;
     private int front;
@@ -27,7 +26,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         }
         content = a;
         front = 0;
-        rear = size;
+        rear = size - 1;
     }
 
     public void addFirst(T item) {
@@ -48,11 +47,9 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         size = size + 1;
     }
 
-
     public int size() {
         return size;
     }
-
 
     public void printDeque() {
         for (int i = 0; i < size; i++) {
@@ -65,14 +62,12 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         System.out.println();
     }
 
-
     public T get(int index) {
         if (isEmpty() || index > size) {
             return null;
         }
         return content[(index + front) % content.length];
     }
-
 
     public T removeFirst() {
         if (isEmpty()) {
@@ -88,7 +83,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         return removed;
     }
 
-
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -102,7 +96,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         size = size - 1;
         return removed;
     }
-
 
     private boolean elementsEqual(Object a, Object b) {
         if (a == b) {
@@ -133,7 +126,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         return true;
     }
 
-
     private class ADIterator<T> implements Iterator<T> {
         private int wizpos;
         private int count = 0;
@@ -156,8 +148,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
         }
     }
 
-
-    public Iterator<T> iterator(){
+    public Iterator<T> iterator() {
         return new ADIterator<T>();
     }
 }

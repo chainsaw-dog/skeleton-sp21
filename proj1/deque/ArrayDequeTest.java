@@ -78,10 +78,10 @@ public class ArrayDequeTest {
         }
         System.out.print(lld1.removeFirst());
         for (int i = 0;i < 45;i++) {
-            System.out.print(lld1.removeLast());
+            System.out.print(lld1.removeFirst());
         }
         for(int i = 0;i < 50;i++) {
-            lld1.addFirst(i);
+            lld1.addLast(i);
         }
         for (int i = 0;i < 45;i++) {
             System.out.print(lld1.removeLast());
